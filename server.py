@@ -14,7 +14,11 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 SITES = {
     "tarmola-code": {
         "name": "Tarmola Code Garage",
-        "recipient": os.getenv("TARMOLA_CODE_RECIPIENT") or "simosiren1@gmail.com",
+        "recipient": (
+            os.getenv("TARMOLA_CODE_RECIPIENTS")
+            or os.getenv("TARMOLA_CODE_RECIPIENT")
+            or ""
+        ),
         "allowed_origins": [
             "https://tarmola-code.fi",
             "https://www.tarmola-code.fi",
