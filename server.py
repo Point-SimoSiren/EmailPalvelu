@@ -30,7 +30,6 @@ SITES = {
         "allowed_origins": [
             "http://127.0.0.1:8767",
             "https://heini.onrender.com",
-            "https://kaarisilta.oivallus.fi",
         ],
     },
 }
