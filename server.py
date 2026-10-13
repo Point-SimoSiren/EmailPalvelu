@@ -134,10 +134,15 @@ def create_app() -> Flask:
 
     @app.before_request
     def select_cors_origin() -> None:
+        origin = request.headers.get("Origin", "")
+        if request.path == "/health":
+            if request.method == "GET" and _origin_is_configured(origin):
+                g.cors_origin = origin
+            return
+
         if request.path != "/contact":
             return
 
-        origin = request.headers.get("Origin", "")
         if request.method == "OPTIONS":
             if _origin_is_configured(origin):
                 g.cors_origin = origin
@@ -155,7 +160,9 @@ def create_app() -> Flask:
         origin = getattr(g, "cors_origin", None)
         if origin:
             response.headers["Access-Control-Allow-Origin"] = origin
-            response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
+            response.headers["Access-Control-Allow-Methods"] = (
+                "GET" if request.path == "/health" else "POST, OPTIONS"
+            )
             response.headers["Access-Control-Allow-Headers"] = "Content-Type"
             response.headers["Access-Control-Max-Age"] = "600"
             response.headers["Vary"] = "Origin"
