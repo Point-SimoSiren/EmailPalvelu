@@ -1,0 +1,5 @@
+Flask>=3.1,<4
+Flask-Limiter>=3.8,<5
+email-validator>=2.2,<3
+gunicorn>=23,<24
+resend>=2,<3
